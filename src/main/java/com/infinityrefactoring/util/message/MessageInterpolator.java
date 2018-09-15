@@ -1,5 +1,6 @@
 package com.infinityrefactoring.util.message;
 
+import java.util.List;
 import java.util.Locale;
 
 import javax.enterprise.inject.spi.CDI;
@@ -14,6 +15,6 @@ public interface MessageInterpolator {
 
 	public String get(String key);
 
-	public String get(String key, Locale locale);
+	public String get(String key, List<Locale> locales);
 
 }
