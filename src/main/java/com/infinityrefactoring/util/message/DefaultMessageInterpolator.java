@@ -2,8 +2,8 @@ package com.infinityrefactoring.util.message;
 
 import static java.util.logging.Level.FINEST;
 
+import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.logging.Logger;
@@ -34,7 +34,7 @@ public class DefaultMessageInterpolator implements MessageInterpolator {
 	private ELProcessor elProcessor;
 
 	@Inject
-	private Locale locale;
+	private List<Locale> locales;
 
 	@Override
 	public MessageInterpolator add(String key, Object value) {
@@ -44,17 +44,22 @@ public class DefaultMessageInterpolator implements MessageInterpolator {
 
 	@Override
 	public String get(String key) {
-		return get(key, locale);
+		return get(key, locales);
 	}
 
 	@Override
-	public String get(String key, Locale locale) {
+	public String get(String key, List<Locale> locales) {
 		if (key == null) {
 			throw new IllegalArgumentException("The key must be not null");
 		}
 
-		Map<String, String> messages = messageProvider.getMessages(locale);
-		String template = messages.get(key);
+		String template = null;
+		for (Locale locale : locales) {
+			template = messageProvider.getMessages(locale).get(key);
+			if (template != null) {
+				break;
+			}
+		}
 
 		if (template == null) {
 			throw new IllegalArgumentException("Not found message for key: " + key);
