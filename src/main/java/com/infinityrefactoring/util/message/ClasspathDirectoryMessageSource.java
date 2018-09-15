@@ -16,10 +16,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 import javax.cache.annotation.CacheDefaults;
 import javax.cache.annotation.CacheKey;
@@ -63,23 +63,18 @@ public class ClasspathDirectoryMessageSource implements MessageSource {
 	@Override
 	@CacheResult
 	public Map<String, String> getMessages(@CacheKey Locale locale) {
-		Stream<URL> stream = directories.stream()
+		Map<String, String> map = directories.stream()
 				.flatMap(directory -> getResources(directory).stream())
-				.filter(url -> Objects.equals(getLocaleOfFilename(url.getPath(), messageFilesSuffix), locale));
-
-		if (logger.isLoggable(FINEST)) {
-			stream = stream.peek(url -> logger.finest("Loading messages from file: " + url));
-		}
-
-		Map<String, String> map = stream.collect(groupingBy(url -> getFilenameWithoutLocale(url, messageFilesSuffix),
-				collectingAndThen(mapping(url -> readLines(url).split("\n", 2),
-						maxBy(COMPARATOR)), optional -> {
-							String[] array = optional.get();
-							if ((array.length == 1) || MESSAGE_ORDINAL_PATTERN.matcher(array[0]).matches()) {
-								return array[array.length - 1];
-							}
-							return array[0].concat(array[1]);
-						})));
+				.filter(hasEqualLocale(locale))
+				.collect(groupingBy(url -> getFilenameWithoutLocale(url, messageFilesSuffix),
+						collectingAndThen(mapping(url -> readLines(url).split("\n", 2),
+								maxBy(COMPARATOR)), optional -> {
+									String[] array = optional.get();
+									if ((array.length == 1) || MESSAGE_ORDINAL_PATTERN.matcher(array[0]).matches()) {
+										return array[array.length - 1];
+									}
+									return array[0].concat(array[1]);
+								})));
 
 		if (map.isEmpty() && logger.isLoggable(FINEST)) {
 			logger.fine("Not found messages for locale: " + ((locale == null) ? null : locale.toLanguageTag()));
@@ -90,6 +85,18 @@ public class ClasspathDirectoryMessageSource implements MessageSource {
 	@Override
 	public String getName() {
 		return "ClasspathDirectoryMessageSource";
+	}
+
+	private Predicate<? super URL> hasEqualLocale(Locale locale) {
+		return url -> {
+			if (Objects.equals(getLocaleOfFilename(url.getPath(), messageFilesSuffix), locale)) {
+				if (logger.isLoggable(FINEST)) {
+					logger.finest("Loading messages from file: " + url);
+				}
+				return true;
+			}
+			return false;
+		};
 	}
 
 }
