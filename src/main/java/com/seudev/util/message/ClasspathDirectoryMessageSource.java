@@ -35,7 +35,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @ApplicationScoped
 @CacheDefaults(cacheName = "classpath-directory-messages-cache")
 public class ClasspathDirectoryMessageSource implements MessageSource {
-    
+
     public static final Pattern MESSAGE_ORDINAL_PATTERN = Pattern.compile("(message_ordinal)([\\s]*)=([\\s]*)([0-9]+)([\\s]*)");
     private static final Comparator<String[]> COMPARATOR = Comparator.comparing(array -> {
         if (array.length == 1) {
@@ -48,18 +48,18 @@ public class ClasspathDirectoryMessageSource implements MessageSource {
         }
         return null;
     }, Comparator.nullsFirst(Integer::compareTo));
-    
+
     @Inject
     private Logger logger;
-    
+
     @Inject
-    @ConfigProperty(name = "message.directories", defaultValue = "META-INF/messages/extended")
+    @ConfigProperty(name = "message.directories", defaultValue = "messages/extended")
     private Set<String> directories;
-    
+
     @Inject
     @ConfigProperty(name = "message.directories.files.suffix", defaultValue = "")
     private String messageFilesSuffix;
-    
+
     @Override
     @CacheResult
     public Map<String, String> getMessages(@CacheKey Locale locale) {
@@ -75,18 +75,18 @@ public class ClasspathDirectoryMessageSource implements MessageSource {
                                     }
                                     return array[0].concat(array[1]);
                                 })));
-        
+
         if (map.isEmpty() && logger.isLoggable(FINEST)) {
             logger.fine("Not found messages for locale: " + ((locale == null) ? null : locale.toLanguageTag()));
         }
         return map;
     }
-    
+
     @Override
     public String getName() {
         return "ClasspathDirectoryMessageSource";
     }
-    
+
     private Predicate<? super URL> hasEqualLocale(Locale locale) {
         return url -> {
             if (Objects.equals(getLocaleOfFilename(url.getPath(), messageFilesSuffix), locale)) {
@@ -98,5 +98,5 @@ public class ClasspathDirectoryMessageSource implements MessageSource {
             return false;
         };
     }
-    
+
 }
