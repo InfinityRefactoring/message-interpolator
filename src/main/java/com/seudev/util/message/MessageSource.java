@@ -1,4 +1,4 @@
-package com.infinityrefactoring.util.message;
+package com.seudev.util.message;
 
 import java.util.Locale;
 import java.util.Map;

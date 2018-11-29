@@ -4,9 +4,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.infinityrefactoring</groupId>
+		<groupId>com.seudev</groupId>
 		<artifactId>oss-parent</artifactId>
-		<version>1.0.0</version>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>message-interpolator</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -14,28 +14,38 @@
 
 	<name>Message Interpolator</name>
 	<description>A library for message interpolation that uses java EL expressions.</description>
-	<url>https://github.com/InfinityRefactoring/message-interpolator</url>
+	<url>http://message-interpolator.seudev.com</url>
+	<inceptionYear>2018</inceptionYear>
 
 	<organization>
-		<name>InfinityRefactoring</name>
-		<url>https://infinityrefactoring.com</url>
+		<name>Seudev</name>
+		<url>https://seudev.com</url>
 	</organization>
 
 	<developers>
 		<developer>
 			<id>ThomasSousa96</id>
 			<name>Thomás Sousa Silva</name>
-			<email>thomas.sousa.96@gmail.com</email>
-			<url>https://github.com/ThomasSousa96</url>
-			<organization>InfinityRefactoring</organization>
-			<organizationUrl>https://infinityrefactoring.com</organizationUrl>
+			<email>thomas@seudev.com</email>
+			<url>http://thomas.seudev.com</url>
+			<organization>Seudev</organization>
+			<organizationUrl>https://seudev.com</organizationUrl>
+			<roles>
+				<role>Founder</role>
+				<role>Chief Executive Officer</role>
+				<role>Developer</role>
+			</roles>
+			<timezone>America/Recife</timezone>
+			<properties>
+				<picUrl>https://seudev.com/img/member/ThomasSousa96.jpeg</picUrl>
+			</properties>
 		</developer>
 	</developers>
 
 	<scm>
-		<url>https://github.com/InfinityRefactoring/message-interpolator</url>
-		<connection>scm:git:https://github.com/InfinityRefactoring/message-interpolator.git</connection>
-		<developerConnection>scm:git:https://github.com/InfinityRefactoring/message-interpolator.git</developerConnection>
+		<url>https://github.com/seudev/message-interpolator</url>
+		<connection>scm:git:https://github.com/seudev/message-interpolator.git</connection>
+		<developerConnection>scm:git:https://github.com/seudev/message-interpolator.git</developerConnection>
 		<tag>master</tag>
 	</scm>
 
@@ -55,7 +65,7 @@
 		<project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>${source.encoding}</project.reporting.outputEncoding>
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.eclipse.microprofile.config</groupId>
@@ -85,7 +95,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.infinityrefactoring</groupId>
+			<groupId>com.seudev</groupId>
 			<artifactId>infinity-utils</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

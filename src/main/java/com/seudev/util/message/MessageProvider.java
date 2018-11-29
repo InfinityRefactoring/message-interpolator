@@ -1,4 +1,4 @@
-package com.infinityrefactoring.util.message;
+package com.seudev.util.message;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Stream.builder;
