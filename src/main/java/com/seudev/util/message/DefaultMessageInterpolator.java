@@ -13,9 +13,9 @@ import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
-import com.seudev.util.text.Expression;
-import com.seudev.util.text.ExpressionDefinitions.DollarCurlyBracket;
-import com.seudev.util.text.ExpressionException;
+import com.seudev.util.el.Expression;
+import com.seudev.util.el.ExpressionException;
+import com.seudev.util.el.ExpressionDefinitions.DollarCurlyBracket;
 
 @Default
 @RequestScoped
